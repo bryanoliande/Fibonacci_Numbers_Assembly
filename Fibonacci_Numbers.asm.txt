@@ -1,0 +1,42 @@
+; Program:    Fibonacci_Numbers.asm
+; Description: Saves first 12 Fibonacci numbers into memory, a BYTE array, and call DumpMem to display your result. 
+; Student:     Bryan Oliande
+; Date Due:        02/24/15
+; Class:       CSCI 241
+; Instructor:  Mr. Ding
+
+
+INCLUDE Irvine32.inc
+
+.data
+memory BYTE 12 DUP(0)
+
+.code
+main proc
+
+	;sets up the loop and registers by making memory hold the first two fibonacci numbers
+	mov  esi,OFFSET  memory
+	mov BYTE PTR [esi],1
+	inc esi
+	mov BYTE PTR [esi],1
+	inc esi
+	mov ebx,1
+	mov edx,1
+	mov eax,1
+	mov ecx,SIZEOF memory-2
+L1:								
+	add eax,edx
+	mov edx,ebx
+	mov ebx,eax
+	mov BYTE PTR [esi],al
+	inc esi
+	loop L1							; 7: repeat until ECX = 0
+
+	;setting up DumpMem
+	mov  esi,OFFSET memory
+    mov  ecx,LENGTHOF memory
+    mov  ebx,TYPE memory
+	call DumpMem
+	exit
+main endp
+end main
